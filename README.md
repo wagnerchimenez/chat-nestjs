@@ -22,3 +22,11 @@ docker compose up -d
 
 - [Chat](http://localhost:3000/)
 - [Adminer](http://localhost:8080)
+
+# Acessar container da aplicacao chat
+
+```shell
+docker attach nest-chat
+```
+
+![docker attach nest-chat](./docs/image.png)
