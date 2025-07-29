@@ -13,3 +13,12 @@
 
 - NestJs
 - PostgreSql
+
+# Executar aplicação
+
+```shell
+docker compose up -d
+```
+
+- [Chat](http://localhost:3000/)
+- [Adminer](http://localhost:8080)
