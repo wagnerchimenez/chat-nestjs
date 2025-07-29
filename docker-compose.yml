@@ -1,0 +1,41 @@
+services:
+  nest-chat:
+    container_name: nest-chat
+    build: ./docker/images/nest-chat
+    entrypoint: npm run start:dev
+    volumes:
+      - ./chat:/chat
+    working_dir: /chat
+    ports:
+      - 3000:3000
+    networks:
+      - nest-chat-network
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: chat
+    networks:
+      - nest-chat-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - nest-chat-network
+
+networks:
+  nest-chat-network:
+    driver: bridge
