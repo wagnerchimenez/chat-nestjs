@@ -1,0 +1,23 @@
+meta {
+  name: POST users
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{APP}}/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": 1,
+    "name": "Wagner Lima Chimenez",
+    "email": "wagnerllchimenez.comp@gmail.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
