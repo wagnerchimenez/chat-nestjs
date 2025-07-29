@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -20,5 +20,18 @@ export class UsersController {
   @Post()
   create(@Body() body) {
     return body;
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() body) {
+    console.log(body);
+    return `Update user with ID ${id}`;
+  }
+
+//   Exemplo de alterar o status da requisição para 204
+//   @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return `Delete user with ID ${id}`;
   }
 }

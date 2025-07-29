@@ -1,0 +1,15 @@
+meta {
+  name: DELETE users/:id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{APP}}/users/12
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
