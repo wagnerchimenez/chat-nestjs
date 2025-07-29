@@ -1,37 +1,46 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
   @Get()
   findAll() {
-    return 'List of Users';
+    return this.usersService.findAll();
   }
-
-  //   @Get(':id')
-  //   findOne(@Param() params) {
-  //     return `User ID ${params.id}`;
-  //   }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return `User ID ${id}`;
+    return this.usersService.findOne(id);
   }
 
   @Post()
   create(@Body() body) {
-    return body;
+    return this.usersService.create(body);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: number, @Body() body) {
-    console.log(body);
-    return `Update user with ID ${id}`;
+    return this.usersService.update(id, body);
   }
 
-//   Exemplo de alterar o status da requisição para 204
-//   @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch('/update-name/:id')
+  updateName(@Param('id') id: number, @Body('name') name: string) {
+    return this.usersService.updateName(id, name);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return `Delete user with ID ${id}`;
+    return this.usersService.remove(id);
   }
 }
