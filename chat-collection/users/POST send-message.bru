@@ -5,9 +5,17 @@ meta {
 }
 
 post {
-  url: {{APP}}/send-message
-  body: none
+  url: {{APP}}/users/send-message
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "message": "Ola tudo bem!",
+    "senderId": 2,
+    "receiverId": 3
+  }
 }
 
 settings {
