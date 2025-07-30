@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -90,5 +91,35 @@ export class UsersService {
     }
 
     return this.usersRepository.remove(user);
+  }
+
+  async sendMessage(message: string, senderId: string, receiverId: string) {
+    const sender = await this.usersRepository.findOne({
+      where: {
+        id: senderId,
+      },
+    });
+
+    if (!sender) {
+      throw new BadRequestException();
+    }
+
+    const receiver = await this.usersRepository.findOne({
+      where: {
+        id: receiverId,
+      },
+    });
+
+    if (!receiver) {
+      throw new BadRequestException();
+    }
+
+    const newMessage = this.messagesRepository.create({
+      message,
+      sender,
+      receiver,
+    });
+
+    return this.messagesRepository.save(newMessage);
   }
 }

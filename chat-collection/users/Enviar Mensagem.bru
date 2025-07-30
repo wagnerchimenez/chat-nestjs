@@ -1,0 +1,22 @@
+meta {
+  name: Enviar Mensagem
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{APP}}/users/e0a9cab6-2ae0-4182-9ec8-2e3a4909f430/messages
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "message": "Corpo da mensagem",
+    "receiverId": "762981e3-9425-4e7d-900d-cc80a90d9a06"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
