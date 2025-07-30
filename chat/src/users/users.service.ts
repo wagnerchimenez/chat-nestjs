@@ -1,6 +1,4 @@
 import {
-  HttpException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -20,11 +18,11 @@ export class UsersService {
     private readonly messagesRepository: Repository<Messages>,
   ) {}
 
-  async findAll() {
+  async getAllUsers() {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: string) {
+  async getUserById(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
         id,
@@ -32,21 +30,18 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new HttpException(
-        `User with ID ${id} not found!`,
-        HttpStatus.NOT_FOUND,
-      );
+      throw new NotFoundException();
     }
 
     return user;
   }
 
-  async create(createUserDto: createUserDto) {
+  async createUser(createUserDto: createUserDto) {
     const user = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
     let user = await this.usersRepository.findOne({
       where: {
         id,
@@ -80,10 +75,10 @@ export class UsersService {
     }
 
     user.name = name;
-    this.usersRepository.save(user);
+    return this.usersRepository.save(user);
   }
 
-  async remove(id: string) {
+  async deleteUser(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
         id,
@@ -91,30 +86,9 @@ export class UsersService {
     });
 
     if (!user) {
-      return;
+      throw new NotFoundException();
     }
 
-    this.usersRepository.remove(user);
-  }
-
-  async sendMessage(senderId: string, receiverId: string, messageText: string) {
-    const sender = await this.usersRepository.findOne({
-      where: { id: senderId },
-    });
-    const receiver = await this.usersRepository.findOne({
-      where: { id: receiverId },
-    });
-
-    if (!sender || !receiver) {
-      throw new NotFoundException('Sender or Receiver not found!');
-    }
-
-    const message = this.messagesRepository.create({
-      sender,
-      receiver,
-      message: messageText,
-    });
-
-    return await this.messagesRepository.save(message);
+    return this.usersRepository.remove(user);
   }
 }
