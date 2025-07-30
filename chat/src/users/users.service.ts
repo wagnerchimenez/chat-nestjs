@@ -39,9 +39,13 @@ export class UsersService {
     }
 
     const index = this.users.findIndex((user) => user.id == id);
+    const name = updateUserDto?.name ?? '';
+    const email = updateUserDto?.email ?? '';
+
     this.users[index] = {
       id,
-      ...updateUserDto,
+      name,
+      email,
     };
   }
 
