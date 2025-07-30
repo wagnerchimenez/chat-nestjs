@@ -11,6 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { createUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { createMessageDto } from './dto/create-message.dto';
 
 @Controller('users')
 export class UsersController {
@@ -44,5 +45,14 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Post('send-message')
+  sendMessage(@Body() createMessageDto: createMessageDto) {
+    return this.usersService.sendMessage(
+      createMessageDto.senderId,
+      createMessageDto.receiverId,
+      createMessageDto.message,
+    );
   }
 }

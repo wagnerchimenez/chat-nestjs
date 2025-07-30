@@ -9,12 +9,16 @@ import { createUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Messages } from './entities/messages.entity';
+import { createMessageDto } from './dto/create-message.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
+    @InjectRepository(Messages)
+    private readonly messagesRepository: Repository<Messages>,
   ) {}
 
   async findAll() {
@@ -92,5 +96,26 @@ export class UsersService {
     }
 
     this.usersRepository.remove(user);
+  }
+
+  async sendMessage(senderId: number, receiverId: number, messageText: string) {
+    const sender = await this.usersRepository.findOne({
+      where: { id: senderId },
+    });
+    const receiver = await this.usersRepository.findOne({
+      where: { id: receiverId },
+    });
+
+    if (!sender || !receiver) {
+      throw new NotFoundException('Sender or Receiver not found!');
+    }
+
+    const message = this.messagesRepository.create({
+      sender,
+      receiver,
+      message: messageText,
+    });
+
+    return await this.messagesRepository.save(message);
   }
 }

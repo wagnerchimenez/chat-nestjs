@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Messages } from 'src/users/entities/messages.entity';
 import { Users } from 'src/users/entities/users.entity';
 import { DataSourceOptions } from 'typeorm';
 
@@ -10,7 +11,7 @@ export const dataSourceOptions: DataSourceOptions = {
   username: 'postgres',
   password: 'root',
   database: 'chat',
-  entities: [Users],
+  entities: [Users, Messages],
   synchronize: true,
 };
 
