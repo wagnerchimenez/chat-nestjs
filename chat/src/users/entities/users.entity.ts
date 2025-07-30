@@ -26,7 +26,6 @@ export class Users {
   @OneToMany(() => Messages, (message) => message.receiver)
   receivedMessages: Messages[];
 
-  @Column({ name: 'created_at' })
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
 }

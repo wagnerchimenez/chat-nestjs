@@ -1,0 +1,15 @@
+meta {
+  name: GET	/messages
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{APP}}/messages
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

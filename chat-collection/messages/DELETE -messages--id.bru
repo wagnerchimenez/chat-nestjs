@@ -1,0 +1,15 @@
+meta {
+  name: DELETE /messages/:id
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{APP}}/messages/id
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

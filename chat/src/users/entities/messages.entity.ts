@@ -26,7 +26,6 @@ export class Messages {
   @JoinColumn({ name: 'receiver_id' })
   receiver: Users;
 
-  @Column({ name: 'created_at' })
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
 }

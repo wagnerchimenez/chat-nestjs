@@ -1,0 +1,23 @@
+meta {
+  name: POST	/messages
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{APP}}/messages
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "message": "Mensagem de texto ...",
+    "senderId": "6c956e32-c82a-416f-8cd3-c843a931beaf",
+    "receiverId": "b52678ed-2711-4c95-aa30-717432fb2176"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
