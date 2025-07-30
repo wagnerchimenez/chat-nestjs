@@ -1,18 +1,32 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Users } from './users.entity';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Users } from './entities/users.entity';
 import { createUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  private users: Users[] = [];
+  constructor(
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository<Users>,
+  ) {}
 
-  findAll() {
-    return this.users;
+  async findAll() {
+    return await this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    const user = this.users.find((user) => user.id == id);
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
     if (!user) {
       throw new HttpException(
@@ -24,49 +38,59 @@ export class UsersService {
     return user;
   }
 
-  create(createUserDto: createUserDto) {
-    const user = {
-      id: this.users.length + 1,
-      ...createUserDto,
-    };
-
-    this.users.push(user);
+  async create(createUserDto: createUserDto) {
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    if (!this.findOne(id)) {
-      return;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    let user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User ID ${id} not found!`);
     }
 
-    const index = this.users.findIndex((user) => user.id == id);
-    const name = updateUserDto?.name ?? '';
-    const email = updateUserDto?.email ?? '';
+    if (updateUserDto.name) {
+      user.name = updateUserDto.name;
+    }
 
-    this.users[index] = {
-      id,
-      name,
-      email,
-    };
+    if (updateUserDto.email) {
+      user.email = updateUserDto.email;
+    }
+
+    return this.usersRepository.save(user);
   }
 
-  updateName(id: number, name: string) {
-    let user = this.findOne(id);
+  async updateName(id: number, name: string) {
+    let user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
     if (!user) {
       return;
     }
 
-    const index = this.users.findIndex((user) => user.id == id);
-    this.users[index] = {
-      ...user,
-      name,
-    };
+    user.name = name;
+    this.usersRepository.save(user);
   }
 
-  remove(id: number) {
-    const index = this.users.findIndex((user) => user.id == id);
-    if (index != -1) {
-      this.users.splice(index, 1);
+  async remove(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return;
     }
+
+    this.usersRepository.remove(user);
   }
 }
