@@ -29,13 +29,4 @@ export class Messages {
   @Column({ name: 'created_at' })
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
-
-  @BeforeInsert()
-  generatedId() {
-    if (this.id) {
-      return;
-    }
-
-    this.id = randomUUID();
-  }
 }

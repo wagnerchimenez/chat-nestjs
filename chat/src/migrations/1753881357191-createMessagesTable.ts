@@ -15,6 +15,8 @@ export class CreateMessagesTable1753881357191 implements MigrationInterface {
             name: 'id',
             type: 'uuid',
             isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'message',
