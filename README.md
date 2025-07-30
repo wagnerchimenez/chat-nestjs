@@ -29,4 +29,16 @@ docker compose up -d
 docker attach nest-chat
 ```
 
-![docker attach nest-chat](./docs/image.png)
+![docker attach nest-chat](./docs/docker-attach.png)
+
+# Executar migrations
+
+```shell
+docker exec -it nest-chat sh 
+npm run build
+typeorm migration:run -d dist/database/orm-cli-config.js
+
+typeorm migration:revert -d dist/database/orm-cli-config.js
+```
+
+![docker attach nest-chat](./docs/database.png)
