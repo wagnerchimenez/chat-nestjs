@@ -10,7 +10,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Messages } from './entities/messages.entity';
-import { createMessageDto } from './dto/create-message.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +24,7 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
         id,
@@ -47,7 +46,7 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     let user = await this.usersRepository.findOne({
       where: {
         id,
@@ -69,7 +68,7 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async updateName(id: number, name: string) {
+  async updateName(id: string, name: string) {
     let user = await this.usersRepository.findOne({
       where: {
         id,
@@ -84,7 +83,7 @@ export class UsersService {
     this.usersRepository.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.usersRepository.findOne({
       where: {
         id,
@@ -98,7 +97,7 @@ export class UsersService {
     this.usersRepository.remove(user);
   }
 
-  async sendMessage(senderId: number, receiverId: number, messageText: string) {
+  async sendMessage(senderId: string, receiverId: string, messageText: string) {
     const sender = await this.usersRepository.findOne({
       where: { id: senderId },
     });

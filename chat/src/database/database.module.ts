@@ -12,7 +12,7 @@ export const dataSourceOptions: DataSourceOptions = {
   password: 'root',
   database: 'chat',
   entities: [Users, Messages],
-  synchronize: true,
+  synchronize: false,
 };
 
 @Module({

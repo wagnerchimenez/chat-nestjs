@@ -1,6 +1,9 @@
+import { randomUUID } from 'node:crypto';
 import { Users } from 'src/users/entities/users.entity';
 import {
+  BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -9,8 +12,8 @@ import {
 
 @Entity()
 export class Messages {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   message: string;
@@ -22,4 +25,17 @@ export class Messages {
   @ManyToOne(() => Users, (user) => user.receivedMessages)
   @JoinColumn({ name: 'receiver_id' })
   receiver: Users;
+
+  @Column({ name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @BeforeInsert()
+  generatedId() {
+    if (this.id) {
+      return;
+    }
+
+    this.id = randomUUID();
+  }
 }

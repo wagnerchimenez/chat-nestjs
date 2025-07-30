@@ -1,10 +1,18 @@
+import { randomUUID } from 'node:crypto';
 import { Messages } from 'src/users/entities/messages.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class Users {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
@@ -17,4 +25,17 @@ export class Users {
 
   @OneToMany(() => Messages, (message) => message.receiver)
   receivedMessages: Messages[];
+
+  @Column({ name: 'created_at' })
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @BeforeInsert()
+  generatedId() {
+    if (this.id) {
+      return;
+    }
+
+    this.id = randomUUID();
+  }
 }

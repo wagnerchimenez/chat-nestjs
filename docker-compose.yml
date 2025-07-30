@@ -26,6 +26,8 @@ services:
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: chat
+    volumes:
+      - ./docker/volumes/postgresql:/var/lib/postgresql
     networks:
       - nest-chat-network
 

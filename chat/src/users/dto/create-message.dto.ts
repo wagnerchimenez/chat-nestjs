@@ -3,8 +3,8 @@ import { IsInt, IsString } from 'class-validator';
 export class createMessageDto {
   @IsString()
   message: string;
-  @IsInt()
-  senderId: number;
-  @IsInt()
-  receiverId: number;
+  @IsString()
+  senderId: string;
+  @IsString()
+  receiverId: string;
 }
