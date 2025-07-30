@@ -1,15 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Users } from './users.entity';
+import { createUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  private users: Users[] = [
-    {
-      id: 1,
-      name: 'Usuário Padrão',
-      email: 'emailusuariopadrao@gmail.com',
-    },
-  ];
+  private users: Users[] = [];
 
   findAll() {
     return this.users;
@@ -28,11 +24,16 @@ export class UsersService {
     return user;
   }
 
-  create(createUserDto) {
-    this.users.push(createUserDto);
+  create(createUserDto: createUserDto) {
+    const user = {
+      id: this.users.length + 1,
+      ...createUserDto,
+    };
+
+    this.users.push(user);
   }
 
-  update(id: number, updateUserDto) {
+  update(id: number, updateUserDto: UpdateUserDto) {
     if (!this.findOne(id)) {
       return;
     }
@@ -60,7 +61,7 @@ export class UsersService {
 
   remove(id: number) {
     const index = this.users.findIndex((user) => user.id == id);
-    if (index) {
+    if (index != -1) {
       this.users.splice(index, 1);
     }
   }

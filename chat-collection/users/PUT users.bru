@@ -1,11 +1,11 @@
 meta {
-  name: PATCH users
+  name: PUT users
   type: http
-  seq: 4
+  seq: 5
 }
 
-patch {
-  url: {{APP}}/users/update-name/2
+put {
+  url: {{APP}}/users/2
   body: json
   auth: inherit
 }
