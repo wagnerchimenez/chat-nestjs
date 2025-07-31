@@ -20,15 +20,11 @@ export class AuthTokenGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    console.log(token);
-
     const payload = await this.jwtService.verifyAsync(token, {
       audience: process.env.JWT_TOKEN_AUDIENCE,
       issuer: process.env.JWT_TOKEN_ISSUER,
       secret: process.env.JWT_SECRET,
     });
-
-    console.log(payload);
 
     return payload ? true : false;
   }

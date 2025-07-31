@@ -5,6 +5,7 @@ import { Users } from 'src/admin/users/entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashingService } from './hashing/hashing.service';
 import { JwtService } from '@nestjs/jwt';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,9 @@ export class AuthService {
 
   async login(
     loginDto: LoginDto,
-  ): Promise<{ accessToken: string } | UnauthorizedException> {
+  ): Promise<
+    { accessToken: string; refreshToken: string } | UnauthorizedException
+  > {
     const user = await this.usersRepository.findOneBy({
       email: loginDto.email,
     });
@@ -39,13 +42,45 @@ export class AuthService {
       sub: loginDto.email,
     };
 
-    const accessToken = await this.jwtService.signAsync(payload, {
+    const accessToken = await this.signJwtAsync(payload, false);
+    const refreshToken = await this.signJwtAsync(payload, true);
+
+    return { accessToken, refreshToken };
+  }
+
+  async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+    const { sub } = await this.jwtService.verifyAsync(
+      refreshTokenDto.refreshToken,
+      {
+        audience: process.env.JWT_TOKEN_AUDIENCE,
+        issuer: process.env.JWT_TOKEN_ISSUER,
+        secret: process.env.JWT_SECRET,
+      },
+    );
+
+    const user = await this.usersRepository.findOneBy({
+      email: sub,
+    });
+
+    if(!user){
+        throw new UnauthorizedException()
+    }
+
+    // TODO Implementar geracao do token
+    // return this.createTokens()
+  }
+
+  private async signJwtAsync(payload, refresh: boolean): Promise<string> {
+    let options = {
       audience: process.env.JWT_TOKEN_AUDIENCE,
       issuer: process.env.JWT_TOKEN_ISSUER,
       secret: process.env.JWT_SECRET,
-      expiresIn: process.env.JWT_TTL,
-    });
+    };
 
-    return { accessToken };
+    if (refresh) {
+      options['expiresIn'] = process.env.JWT_TTL;
+    }
+
+    return await this.jwtService.signAsync(payload, options);
   }
 }
