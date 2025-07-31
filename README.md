@@ -13,7 +13,9 @@
 
 - NestJs
 - PostgreSql
-- Swagger
+- [Swagger](https://docs.nestjs.com/openapi/introduction#introduction)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Handlebars](https://handlebarsjs.com)
 
 # Executar aplicação
 
