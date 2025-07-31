@@ -9,6 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Messages } from './entities/messages.entity';
+import { HashingService } from 'src/auth/hashing/hashing.service';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,7 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
     @InjectRepository(Messages)
     private readonly messagesRepository: Repository<Messages>,
+    private readonly hasshingService: HashingService,
   ) {}
 
   async getAllUsers() {
@@ -38,7 +40,11 @@ export class UsersService {
   }
 
   async createUser(createUserDto: createUserDto) {
-    const user = this.usersRepository.create(createUserDto);
+    const user = this.usersRepository.create({
+      name: createUserDto.name,
+      email: createUserDto.email,
+      password: await this.hasshingService.hash(createUserDto.password),
+    });
     return this.usersRepository.save(user);
   }
 
@@ -61,21 +67,10 @@ export class UsersService {
       user.email = updateUserDto.email;
     }
 
-    return this.usersRepository.save(user);
-  }
-
-  async updateName(id: string, name: string) {
-    let user = await this.usersRepository.findOne({
-      where: {
-        id,
-      },
-    });
-
-    if (!user) {
-      return;
+    if (updateUserDto.password) {
+      user.password = await this.hasshingService.hash(updateUserDto.password);
     }
 
-    user.name = name;
     return this.usersRepository.save(user);
   }
 
