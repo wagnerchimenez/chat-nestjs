@@ -13,6 +13,7 @@
 
 - NestJs
 - PostgreSql
+- Swagger
 
 # Executar aplicação
 
