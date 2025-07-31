@@ -19,39 +19,42 @@
           />
           <h1 class='text-4xl font-bold mb-7'>Login</h1>
 
-          <input
-            type='text'
-            name=''
-            id=''
-            placeholder='Digite o seu email...'
-            class='w-full p-2 rounded-lg outline-none bg-gray-50 focus:bg-white'
-          />
+          <form action='/login/sign-in' method='post' class="flex flex-col gap-4">
 
-          <input
-            type='password'
-            name=''
-            id=''
-            placeholder='**********'
-            class='w-full p-2 rounded-lg outline-none bg-gray-50 focus:bg-white'
-          />
+            <input
+              type='text'
+              name='email'
+              placeholder='Digite o seu email...'
+              class='w-full p-2 rounded-lg outline-none bg-gray-50 focus:bg-white'
+            />
 
-          <div class='w-full flex items-center justify-between'>
-            <div class='flex items-center gap-2'>
-              <input type='checkbox' name='lembrar' id='lembrar' />
-              <label for='lembrar' class='font-medium'>Lembrar senha</label>
+            <input
+              type='password'
+              name='password'
+              id=''
+              placeholder='**********'
+              class='w-full p-2 rounded-lg outline-none bg-gray-50 focus:bg-white'
+            />
+
+            <div class='w-full flex items-center justify-between'>
+              <div class='flex items-center gap-2'>
+                <input type='checkbox' name='lembrar' id='lembrar' />
+                <label for='lembrar' class='font-medium'>Lembrar senha</label>
+              </div>
+
+              <a
+                href='#'
+                class='text-sky-600 hover:text-sky-500 duration-200'
+              >Esqueceu a senha?</a>
             </div>
 
-            <a
-              href='#'
-              class='text-sky-600 hover:text-sky-500 duration-200'
-            >Esqueceu a senha?</a>
-          </div>
+            <button
+              class='w-full bg-blue-600 p-2 rounded-lg text-white text-lg font-medium hover:bg-blue-400 duration-200'
+            >
+              Acessar
+            </button>
 
-          <button
-            class='w-full bg-blue-600 p-2 rounded-lg text-white text-lg font-medium hover:bg-blue-400 duration-200'
-          >
-            Acessar
-          </button>
+          </form>
 
           <p>Não possui uma conta?
             <a

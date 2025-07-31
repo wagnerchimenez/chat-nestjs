@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Messages } from 'src/users/entities/messages.entity';
+import { Messages } from 'src/admin/users/entities/messages.entity';
 import {
   BeforeInsert,
   Column,
@@ -19,6 +19,9 @@ export class Users {
 
   @Column()
   email: string;
+
+  @Column()
+  password: string
 
   @OneToMany(() => Messages, (message) => message.sender)
   sentMessages: Messages[];

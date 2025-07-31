@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Users } from 'src/users/entities/users.entity';
+import { Users } from 'src/admin/users/entities/users.entity';
 import {
   BeforeInsert,
   Column,

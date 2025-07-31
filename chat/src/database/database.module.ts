@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Messages } from 'src/users/entities/messages.entity';
-import { Users } from 'src/users/entities/users.entity';
+import { Messages } from 'src/admin/users/entities/messages.entity';
+import { Users } from 'src/admin/users/entities/users.entity';
 import { DataSourceOptions } from 'typeorm';
 
 export const dataSourceOptions: DataSourceOptions = {
