@@ -19,7 +19,7 @@
           />
           <h1 class='text-4xl font-bold mb-7'>Login</h1>
 
-          <form action='/login/sign-in' method='post' class="flex flex-col gap-4">
+          <form action='/auth' method='post' class="w-full flex flex-col gap-4">
 
             <input
               type='text'
@@ -36,18 +36,6 @@
               class='w-full p-2 rounded-lg outline-none bg-gray-50 focus:bg-white'
             />
 
-            <div class='w-full flex items-center justify-between'>
-              <div class='flex items-center gap-2'>
-                <input type='checkbox' name='lembrar' id='lembrar' />
-                <label for='lembrar' class='font-medium'>Lembrar senha</label>
-              </div>
-
-              <a
-                href='#'
-                class='text-sky-600 hover:text-sky-500 duration-200'
-              >Esqueceu a senha?</a>
-            </div>
-
             <button
               class='w-full bg-blue-600 p-2 rounded-lg text-white text-lg font-medium hover:bg-blue-400 duration-200'
             >
@@ -55,12 +43,6 @@
             </button>
 
           </form>
-
-          <p>Não possui uma conta?
-            <a
-              href='#'
-              class='font-medium text-sky-600 hover:text-sky-500 duration-200'
-            >Criar uma conta</a></p>
         </div>
       </section>
     </main>
