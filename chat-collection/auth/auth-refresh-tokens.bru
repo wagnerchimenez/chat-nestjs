@@ -1,0 +1,21 @@
+meta {
+  name: /auth/refresh-tokens
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{APP}}/auth/refresh-tokens
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ3YWduZXJsbGNoaW1lbmV6LmNvbXBAZ21haWwuY29tIiwiaWF0IjoxNzU0MDA5NTYwLCJleHAiOjE3NTQwMTMxNjAsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJ9.PZb7TKqOHeuVySbUxb9SpERVBRqsvFQFIdIywfw_5nY"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

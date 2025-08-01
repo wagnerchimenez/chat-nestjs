@@ -7,7 +7,11 @@ meta {
 get {
   url: {{APP}}/users
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ3YWduZXJsbGNoaW1lbmV6LmNvbXBAZ21haWwuY29tIiwiaWF0IjoxNzU0MDA5NTYwLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.FXlLHd9PYuOnXGxCLak3VGB4OW3o6geWMoSyWy0Td5s
 }
 
 settings {

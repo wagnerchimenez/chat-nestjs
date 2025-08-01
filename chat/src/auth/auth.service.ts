@@ -38,17 +38,14 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const payload = {
-      sub: loginDto.email,
-    };
-
-    const accessToken = await this.signJwtAsync(payload, false);
-    const refreshToken = await this.signJwtAsync(payload, true);
-
-    return { accessToken, refreshToken };
+    return this.createTokens(loginDto.email)
   }
 
-  async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+  async refreshTokens(
+    refreshTokenDto: RefreshTokenDto,
+  ): Promise<
+    { accessToken: string; refreshToken: string } | UnauthorizedException
+  > {
     const { sub } = await this.jwtService.verifyAsync(
       refreshTokenDto.refreshToken,
       {
@@ -62,12 +59,22 @@ export class AuthService {
       email: sub,
     });
 
-    if(!user){
-        throw new UnauthorizedException()
+    if (!user) {
+      throw new UnauthorizedException();
     }
 
-    // TODO Implementar geracao do token
-    // return this.createTokens()
+    return this.createTokens(sub);
+  }
+
+  private async createTokens(email: string) {
+    const payload = {
+      sub: email,
+    };
+
+    const accessToken = await this.signJwtAsync(payload, false);
+    const refreshToken = await this.signJwtAsync(payload, true);
+
+    return { accessToken, refreshToken };
   }
 
   private async signJwtAsync(payload, refresh: boolean): Promise<string> {

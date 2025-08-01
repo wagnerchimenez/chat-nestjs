@@ -12,7 +12,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post()
+  @Post('refresh-tokens')
   refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshTokens(refreshTokenDto);
   }
