@@ -56,15 +56,3 @@ export class UsersController {
     );
   }
 }
-
-/* 
-
-GET	/users/:id/messages/sent	Ver mensagens enviadas por um usuário
-GET	/users/:id/messages/received	Ver mensagens recebidas por um usuário
-GET	/users/:userId/messages/:messageId	Ver uma mensagem específica de um usuário
-
-
-Mensagem status lida nao lida
-usuario status onlien offline
-
-*/
